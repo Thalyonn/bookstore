@@ -21,4 +21,6 @@ public class User {
     private String passwordHash;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    private String role;
 }
