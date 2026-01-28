@@ -44,10 +44,15 @@ class BookController {
         }
     }
 
-    @GetMapping("/{category}")
+    @GetMapping("/category/{category}")
     public ResponseEntity<List<BookResponse>> findByCategory(@PathVariable String category) {
-        Category category = categoryService.;
-        List<Book> books = bookService
+        List<Book> books = bookService.getBooksByCategory(categoryService.findByName(category));
+        if(books.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        else {
+            return ResponseEntity.ok(books.stream().map(BookResponse::new).toList());
+        }
     }
 
 }

@@ -21,6 +21,8 @@ public class CategoryService {
     public Category addCategory(Category category) {
         return categoryRepository.save(category);
     }
-
+    public Category findByName(String name) {
+        return categoryRepository.findByName(name).orElse(null);
+    }
 }
 
