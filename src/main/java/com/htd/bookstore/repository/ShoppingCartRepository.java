@@ -4,5 +4,5 @@ import com.htd.bookstore.model.ShoppingCart;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Integer> {
+interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long> {
 }

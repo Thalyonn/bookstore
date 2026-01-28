@@ -1,15 +1,21 @@
 package com.htd.bookstore.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "books")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int bookId;
+    private Long bookId;
 
     private String title;
     private String author;
