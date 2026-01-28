@@ -55,4 +55,15 @@ class BookController {
         }
     }
 
+    @GetMapping("/search/{title}")
+    public ResponseEntity<List<BookResponse>> findByTitle(@PathVariable String title) {
+        List<Book> books = bookService.searchBooks(title);
+        if(books.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        else {
+            return ResponseEntity.ok(books.stream().map(BookResponse::new).toList());
+        }
+    }
+
 }
