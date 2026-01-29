@@ -18,10 +18,9 @@ async function loadCart() {
         const div = document.createElement("div");
         div.className = "cart-item";
         div.innerHTML = `
-            <h3>${item.book.title}</h3>
-            <p>Author: ${item.book.author}</p>
+            <h3>${item.title}</h3>
             <p>Quantity: ${item.quantity}</p>
-            <p>Price: ${item.book.price} pesos</p>
+            <p>Price: ${item.price} pesos</p>
         `;
         container.appendChild(div);
     });
