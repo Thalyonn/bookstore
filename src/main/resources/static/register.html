@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bookstore Login</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; }
+    #welcome { margin-top: 1em; font-weight: bold; color: green; }
+  </style>
+</head>
+<body>
+  <h1>Register</h1>
+  <label>Username: <input type="text" id="username"></label><br>
+  <label>Password: <input type="password" id="password"></label><br>
+  <button onclick="register()">Register</button>
+
+  <div id="message">test</div>
+
+  <script>
+    async function register() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      const response = await fetch("/api/users/register", {
+        method: "POST",
+        headers: { "Content-Type" : "application/json" },
+        body: JSON.stringify({username, password})
+      });
+      console.log("sending is done")
+      if(response.ok) {
+        console.log("response is ok")
+        const user= await response.json();
+        document.getElementById("message").innerText = "Registered succesfully with username " +
+                user.username;
+        setTimeout(() =>  window.location.href = "login.html", 2000);
+      } else{
+        document.getElementById("message").innerText = "Registration has failed.";
+      }
+    }
+  </script>
+</body>
+</html>
