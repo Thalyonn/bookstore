@@ -5,11 +5,10 @@ import com.htd.bookstore.model.User;
 import com.htd.bookstore.repository.UserRepository;
 import com.htd.bookstore.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -36,4 +35,16 @@ class UserController {
         return ResponseEntity.ok(userResponse);
 
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<Map<String, String>> currentUser(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.ok(Map.of("authenticated", "false"));
+        }
+        return ResponseEntity.ok(Map.of(
+                "authenticated", "true",
+                "username", userDetails.getUsername()
+        ));
+    }
+
 }

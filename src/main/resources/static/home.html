@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bookstore</title>
+</head>
+<body>
+<header>
+  <h1>📚 Welcome to My Bookstore</h1>
+  <nav id="nav">
+    <!-- this is where the navlinks go-->
+  </nav>
+</header>
+
+<script>
+  async function setupNav() {
+    const response = await fetch("/api/users/me", { credentials: "include" });
+    const data = await response.json();
+
+    const nav = document.getElementById("nav");
+    nav.innerHTML = ""; // clear
+
+    if (data.authenticated === "true") {
+      nav.innerHTML = `
+          <span>Hello, ${data.username}</span>
+          <a href="#" onclick="logout()">Logout</a>
+
+        `;
+    } else {
+      nav.innerHTML = `
+          <a href="login.html">Login</a>
+          <a href="register.html">Register</a>
+
+        `;
+    }
+  }
+
+  async function logout() {
+    await fetch("/logout", { method: "POST", credentials: "include" });
+    window.location.href = "login.html";
+  }
+
+  setupNav();
+</script>
+</body>
+</html>

@@ -4,16 +4,21 @@
   <title>Bookstore Login</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 2em; }
-    #welcome { margin-top: 1em; font-weight: bold; color: green; }
+    .container { max-width: 300px; margin: auto; }
+    input, button { display: block; margin: 0.5em 0; padding: 0.5em; width: 100%; }
+    #message { margin-top: 1em; font-weight: bold; }
   </style>
 </head>
 <body>
+<div class="container">
   <h1>Register</h1>
   <label>Username: <input type="text" id="username"></label><br>
   <label>Password: <input type="password" id="password"></label><br>
   <button onclick="register()">Register</button>
 
   <div id="message">test</div>
+</div>
+
 
   <script>
     async function register() {
@@ -32,8 +37,14 @@
         document.getElementById("message").innerText = "Registered succesfully with username " +
                 user.username;
         setTimeout(() =>  window.location.href = "login.html", 2000);
-      } else{
-        document.getElementById("message").innerText = "Registration has failed.";
+      } else if (response.status === 400) {
+        console.log("status 400 returned")
+        const errorData = await response.text();
+        document.getElementById("message").innerText =
+                errorData || "Username is already taken.";
+      } else {
+        document.getElementById("message").innerText =
+                "Registration has failed. Please try again.";
       }
     }
   </script>
