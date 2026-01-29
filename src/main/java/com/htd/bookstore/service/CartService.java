@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-class CartService {
+public class CartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final CartItemRepository cartItemRepository;
     private final BookRepository bookRepository;
@@ -28,6 +28,18 @@ class CartService {
     public CartItem addBookToCart(User user, Long bookId, int quantity) {
         ShoppingCart shoppingCart = getCartByUser(user);
         Book book = bookRepository.getBooksByBookId(bookId);
+        /*
+        cases:
+        1. item already in cart, then we should just add the quantity
+        2. item not yet in cart
+
+         */
+        Optional<CartItem> existingItem = cartItemRepository.findByCartAndBook(shoppingCart, book);
+        if (existingItem.isPresent()) {
+            CartItem cartItem = existingItem.get();
+            cartItem.setQuantity(cartItem.getQuantity() + quantity);
+            return cartItemRepository.save(cartItem);
+        }
 
         CartItem item = new CartItem();
         item.setBook(book);
@@ -37,7 +49,7 @@ class CartService {
 
         return cartItemRepository.save(item);
     }
-    //get cart items
+    //get cart if it exists otherwise make a new one
     public ShoppingCart getCartByUser(User user) {
         return shoppingCartRepository.findByUser(user).orElseGet(() -> {
             ShoppingCart cart = new ShoppingCart();

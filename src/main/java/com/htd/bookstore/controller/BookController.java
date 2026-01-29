@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/books")
-class BookController {
+public class BookController {
     BookService bookService;
     CategoryService categoryService;
     public BookController(BookService bookService,  CategoryService categoryService) {

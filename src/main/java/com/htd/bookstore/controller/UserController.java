@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/api/users")
-class UserController {
+public class UserController {
     private final UserRepository userRepository;
     UserService userService;
     UserController(UserService userService, UserRepository userRepository) {

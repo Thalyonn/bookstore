@@ -20,25 +20,7 @@
   </form>
   <div id="message"></div>
 </div>
+<script src="js/login.js"></script>
 
-<script>
-  //check and get form submission to redirect after login
-  document.getElementById("loginForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-    const formData = new FormData(this);
-
-    fetch("/login", {
-      method: "POST",
-      body: formData,
-      credentials: "include" //keep the session cookie
-    }).then(response => {
-      if (response.ok) {
-        window.location.href = "/home.html";
-      } else {
-        document.getElementById("message").innerText = "Login failed!";
-      }
-    });
-  });
-</script>
 </body>
 </html>

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-class OrderService {
+public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final CartService cartService;
@@ -26,7 +26,7 @@ class OrderService {
     public List<Order> getOrdersByUser(User user) {
         return orderRepository.findByUser(user);
     }
-
+    //to do: clear items in cart after successful checkout
     public Order checkout(User user) {
         //checkout everything in the users cart
         List<CartItem> cartItems = cartService.getCartItems(user);
