@@ -2,6 +2,7 @@ package com.htd.bookstore.service;
 
 import com.htd.bookstore.model.Category;
 import com.htd.bookstore.repository.CategoryRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class CategoryService {
     public List<Category> getAllCategories() {
         return categoryRepository.findAll();
     }
-
+    @Transactional
     public Category addCategory(Category category) {
         return categoryRepository.save(category);
     }

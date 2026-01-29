@@ -21,7 +21,8 @@ public class BookResponse {
     private String description;
     private BigDecimal price;
     private int stock;
-    private Category category;
+    private Long categoryId;
+    private String categoryName;
 
     public BookResponse(Book book) {
         this.bookId = book.getBookId();
@@ -30,6 +31,8 @@ public class BookResponse {
         this.description = book.getDescription();
         this.price = book.getPrice();
         this.stock = book.getStock();
+        this.categoryId = book.getCategory().getCategoryId();
+        this.categoryName = book.getCategory().getName();
 
     }
 }

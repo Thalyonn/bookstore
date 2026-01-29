@@ -1,5 +1,7 @@
 package com.htd.bookstore.controller;
 
+import com.htd.bookstore.dto.CartItemResponse;
+import com.htd.bookstore.dto.CartResponse;
 import com.htd.bookstore.model.Book;
 import com.htd.bookstore.model.CartItem;
 import com.htd.bookstore.model.ShoppingCart;
@@ -28,7 +30,7 @@ public class CartController {
         this.orderService = orderService;
     }
     @PostMapping("/add")
-    public ResponseEntity<?> addBookToCart(@RequestBody Long bookId,
+    public ResponseEntity<?> addBookToCart(@RequestParam Long bookId,
                                            @RequestParam int quantity,
                                            @AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null) {
@@ -42,8 +44,8 @@ public class CartController {
         ShoppingCart cart = cartService.getCartByUser(user.get());
         //addbooktocart
         CartItem item = cartService.addBookToCart(user.get(), bookId, quantity);
-
-        return ResponseEntity.ok().body(item);
+        CartItemResponse cartItemResponse = new CartItemResponse(item);
+        return ResponseEntity.ok(item);
 
     }
 
@@ -57,6 +59,7 @@ public class CartController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         ShoppingCart cart = cartService.getCartByUser(user.get());
-        return ResponseEntity.ok().body(cart);
+        CartResponse response = new CartResponse(cart);
+        return ResponseEntity.ok(response);
     }
 }

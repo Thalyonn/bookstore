@@ -12,6 +12,7 @@ async function setupNav() {
         nav.innerHTML = `
           <span>Hello, ${data.username}</span>
           <a href="#" onclick="logout()">Logout</a>
+          <a href="/cart.html">Cart</a>
         `;
     } else {
         loggedIn = false;

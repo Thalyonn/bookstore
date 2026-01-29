@@ -7,6 +7,7 @@ import com.htd.bookstore.model.User;
 import com.htd.bookstore.repository.BookRepository;
 import com.htd.bookstore.repository.CartItemRepository;
 import com.htd.bookstore.repository.ShoppingCartRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class CartService {
     }
 
     //add book to cart
+    @Transactional
     public CartItem addBookToCart(User user, Long bookId, int quantity) {
         ShoppingCart shoppingCart = getCartByUser(user);
         Book book = bookRepository.getBooksByBookId(bookId);

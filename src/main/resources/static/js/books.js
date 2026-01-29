@@ -12,7 +12,7 @@ async function loadBooks() {
             <h3>${book.title}</h3>
             <p>Author: ${book.author}</p>
             <p>Price: ${book.price} pesos</p>
-            ${loggedIn ? `<button onclick="orderBook(${book.id})">Order</button>` : ""}
+            ${loggedIn ? `<button onclick="orderBook(${book.bookId})">Order</button>` : ""}
         `;
         container.appendChild(card);
     });

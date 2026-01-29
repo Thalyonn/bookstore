@@ -3,6 +3,7 @@ package com.htd.bookstore.service;
 import com.htd.bookstore.model.Book;
 import com.htd.bookstore.model.Category;
 import com.htd.bookstore.repository.BookRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class BookService {
         return bookRepository.findByCategory(category);
     }
 
+    @Transactional
     public Book addBook(Book book) {
         return bookRepository.save(book);
     }

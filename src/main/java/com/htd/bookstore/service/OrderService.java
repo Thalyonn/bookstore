@@ -6,6 +6,7 @@ import com.htd.bookstore.model.OrderItem;
 import com.htd.bookstore.model.User;
 import com.htd.bookstore.repository.OrderItemRepository;
 import com.htd.bookstore.repository.OrderRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -27,6 +28,7 @@ public class OrderService {
         return orderRepository.findByUser(user);
     }
     //to do: clear items in cart after successful checkout
+    @Transactional
     public Order checkout(User user) {
         //checkout everything in the users cart
         List<CartItem> cartItems = cartService.getCartItems(user);

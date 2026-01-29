@@ -1,10 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="UTF-8">
+  <title>My Cart</title>
+  <link rel="stylesheet" href="css/header.css">
+  <style>
+    .cart-grid { display: flex; flex-direction: column; gap: 1em; }
+    .cart-item { background: white; border: 1px solid #ddd; border-radius: 6px; padding: 1em; }
+    .cart-item h3 { margin: 0.5em 0; }
+    .cart-item p { margin: 0.2em 0; color: #555; }
+    .checkout-btn { margin-top: 1em; padding: 0.5em 1em; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    .checkout-btn:hover { background: #1e7e34; }
+  </style>
 </head>
 <body>
+<header>
+  <h1>Your Shopping Cart</h1>
+  <nav id="nav">
+    <!-- navlinks go here -->
+  </nav>
+  <a href="home.html"><---- Back to Home</a>
+</header>
 
+<section>
+  <h2>Items in Cart</h2>
+  <div id="cart" class="cart-grid"></div>
+  <button class="checkout-btn" onclick="checkout()">Checkout</button>
+</section>
+
+<script src="js/nav.js"></script>
+<script src="js/cart.js"></script>
+<script>
+  setupNav();
+  loadCart();
+</script>
 </body>
 </html>
