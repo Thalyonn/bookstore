@@ -19,7 +19,7 @@ public class Order {
 
     private LocalDateTime orderDate;
     private BigDecimal totalAmount;
-    private String status;
+    private String status; //bonus status attribute for status stuff
 
     @ManyToOne
     @JoinColumn(name = "user_id")

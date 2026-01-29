@@ -16,7 +16,7 @@ public class OrderItem {
     private Long orderItemId;
 
     private int quantity;
-    private BigDecimal price;
+    private BigDecimal price; //this will just be book price at time of ordering
 
     @ManyToOne
     @JoinColumn(name = "order_id")

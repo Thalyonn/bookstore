@@ -7,10 +7,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/*
+The purpose of this custom implementation is for Spring to be able to use
+loadUserByUsername with the data from our repository of users.
+ */
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class ApiAuthUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
-    public CustomUserDetailsService(UserRepository userRepository) {
+    public ApiAuthUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
     @Override
