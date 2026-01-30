@@ -13,12 +13,14 @@ import java.math.BigDecimal;
 public class CartItemResponse {
     private Long bookId;
     private String title;
+    private String author;
     private int quantity;
     private BigDecimal price;
 
     public CartItemResponse(CartItem cartItem) {
         this.bookId = cartItem.getBook().getBookId();
         this.title = cartItem.getBook().getTitle();
+        this.author = cartItem.getBook().getAuthor();
         this.quantity = cartItem.getQuantity();
         this.price = cartItem.getBook().getPrice();
 

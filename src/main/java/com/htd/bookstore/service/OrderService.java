@@ -54,8 +54,9 @@ public class OrderService {
             orderItemRepository.save(orderItem);
         }
         order.setTotalAmount(totalPrice);
-
-        return orderRepository.save(order);
+        Order returnOrder = orderRepository.save(order);
+        cartService.clearCart(user);
+        return returnOrder;
 
 
     }

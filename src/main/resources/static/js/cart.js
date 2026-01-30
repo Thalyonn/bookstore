@@ -27,13 +27,13 @@ async function loadCart() {
 }
 
 async function checkout() {
-    const response = await fetch("/api/orders/checkout", {
+    const response = await fetch("/api/cart/checkout", {
         method: "POST",
         credentials: "include"
     });
     if (response.ok) {
         alert("Order placement has been successfull!");
-        window.location.href = "index.html";
+        window.location.href = "home.html";
     } else {
         alert("Checkout failed.");
     }

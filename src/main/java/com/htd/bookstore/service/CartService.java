@@ -64,4 +64,10 @@ public class CartService {
         ShoppingCart cart = getCartByUser(user);
         return cart.getItems();
     }
+
+    public void clearCart(User user) {
+        ShoppingCart cart = getCartByUser(user);
+        cart.getItems().clear();
+        shoppingCartRepository.save(cart);
+    }
 }

@@ -26,11 +26,7 @@ public class CartResponse {
         this.username = shoppingCart.getUser().getUsername();
         //making cart item response to each item
         this.items = shoppingCart.getItems().stream()
-                .map(item -> new CartItemResponse(
-                        item.getBook().getBookId(),
-                        item.getBook().getTitle(),
-                        item.getQuantity(),
-                        item.getBook().getPrice() ))
+                .map(CartItemResponse::new)
                 .collect(Collectors.toList());
     }
 }

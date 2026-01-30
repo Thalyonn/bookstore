@@ -2,10 +2,8 @@ package com.htd.bookstore.controller;
 
 import com.htd.bookstore.dto.CartItemResponse;
 import com.htd.bookstore.dto.CartResponse;
-import com.htd.bookstore.model.Book;
-import com.htd.bookstore.model.CartItem;
-import com.htd.bookstore.model.ShoppingCart;
-import com.htd.bookstore.model.User;
+import com.htd.bookstore.dto.OrderResponse;
+import com.htd.bookstore.model.*;
 import com.htd.bookstore.service.CartService;
 import com.htd.bookstore.service.OrderService;
 import com.htd.bookstore.service.UserService;
@@ -61,5 +59,19 @@ public class CartController {
         ShoppingCart cart = cartService.getCartByUser(user.get());
         CartResponse response = new CartResponse(cart);
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/checkout")
+    public ResponseEntity<?> checkoutCart(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        Optional<User> user = userService.getUserByUsername(userDetails.getUsername());
+        if (user.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        Order order = orderService.checkout(user.get());
+        OrderResponse orderResponse = new OrderResponse(order);
+        return ResponseEntity.ok(orderResponse);
     }
 }
