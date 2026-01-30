@@ -34,15 +34,22 @@ public class CartService {
         cases:
         1. item already in cart, then we should just add the quantity
         2. item not yet in cart
+        3. item stock not available
 
          */
         Optional<CartItem> existingItem = cartItemRepository.findByCartAndBook(shoppingCart, book);
         if (existingItem.isPresent()) {
             CartItem cartItem = existingItem.get();
             cartItem.setQuantity(cartItem.getQuantity() + quantity);
+            int newQuantity = cartItem.getQuantity();
+            if(newQuantity > book.getStock()) {
+                throw new IllegalStateException("Not enough stock.");
+            }
             return cartItemRepository.save(cartItem);
         }
-
+        if(quantity > book.getStock()) {
+            throw new IllegalStateException("Not enough stock.");
+        }
         CartItem item = new CartItem();
         item.setBook(book);
         item.setQuantity(quantity);

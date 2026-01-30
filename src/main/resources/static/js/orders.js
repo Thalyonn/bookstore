@@ -1,5 +1,9 @@
 async function loadOrders() {
     const response = await fetch("/api/orders", { credentials: "include" });
+    if (!response.ok) {
+        document.getElementById("order-header").innerText = "Need to log in to view your orders.";
+        return;
+    }
     const orders = await response.json();
 
     const container = document.getElementById("orders");
