@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+/**
+ * This is a service for managing some user operations such as registration, and getting users.
+ */
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -18,6 +21,13 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Registers a new user into the user repository.
+     * @param username
+     * @param password
+     * @return the user that was saved to the repository
+     * @throws IllegalArgumentException if username already exists in database
+     */
     @Transactional
     public User registerUser(String username,
                              String password
@@ -33,6 +43,11 @@ public class UserService {
 
     }
 
+    /**
+     * Gets a user given a username.
+     * @param username
+     * @return an Optional of User based on username found in user repository
+     */
     public Optional<User> getUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
