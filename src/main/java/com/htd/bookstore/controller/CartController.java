@@ -43,7 +43,7 @@ public class CartController {
         //addbooktocart
         CartItem item = cartService.addBookToCart(user.get(), bookId, quantity);
         CartItemResponse cartItemResponse = new CartItemResponse(item);
-        return ResponseEntity.ok(item);
+        return ResponseEntity.ok(cartItemResponse);
 
     }
 
