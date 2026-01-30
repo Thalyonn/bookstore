@@ -13,6 +13,7 @@ async function setupNav() {
           <span>Hello, ${data.username}</span>
           <a href="#" onclick="logout()">Logout</a>
           <a href="/cart.html">Cart</a>
+          <a href="/orders.html">Orders</a>
         `;
     } else {
         loggedIn = false;
