@@ -65,9 +65,10 @@ public class CartService {
         return cart.getItems();
     }
 
+    @Transactional
     public void clearCart(User user) {
         ShoppingCart cart = getCartByUser(user);
-        cart.getItems().clear();
-        shoppingCartRepository.save(cart);
+        cartItemRepository.deleteByCart(cart);
+
     }
 }
