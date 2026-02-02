@@ -36,7 +36,7 @@ public class UserController {
     }
 
     /**
-     * Register user response entity.
+     * Register user and return response entity of UserResponse.
      *
      * @param payload the payload
      * @return the response entity

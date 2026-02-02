@@ -10,10 +10,10 @@ import java.util.Optional;
  */
 public interface UserRepository extends JpaRepository<User, Long> {
     /**
-     * Find by username optional.
+     * Find by username and return optional of User.
      *
      * @param username the username
-     * @return the optional
+     * @return the optional User
      */
     Optional<User> findByUsername(String username);
 

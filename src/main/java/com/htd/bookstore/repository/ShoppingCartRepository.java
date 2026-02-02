@@ -13,10 +13,10 @@ import java.util.Optional;
  */
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long> {
     /**
-     * Find by user optional.
+     * Find by user and return optional of shopping carts.
      *
      * @param user the user
-     * @return the optional
+     * @return the optional of shopping carts
      */
     Optional<ShoppingCart> findByUser(User user);
 }

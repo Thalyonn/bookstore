@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface BookRepository extends JpaRepository<Book, Long> {
     /**
-     * Find by title containing ignore case list.
+     * Find by title containing keyword and ignore case list.
      *
      * @param keyword the keyword
      * @return the list

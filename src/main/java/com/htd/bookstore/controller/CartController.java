@@ -117,10 +117,10 @@ public class CartController {
     }
 
     /**
-     * Delete cart response entity.
+     * Delete cart and return cart response entity which is a CartResponse.
      *
      * @param userDetails the user details
-     * @return the response entity
+     * @return the response entity CartResponse
      */
     @DeleteMapping
     public ResponseEntity<?> deleteCart(@AuthenticationPrincipal UserDetails userDetails) {

@@ -47,7 +47,7 @@ class OrderController {
      * Gets orders.
      *
      * @param userDetails the user details
-     * @return the orders
+     * @return the orders in the form of an order response
      */
     @GetMapping
     public ResponseEntity<?> getOrders(@AuthenticationPrincipal UserDetails userDetails) {

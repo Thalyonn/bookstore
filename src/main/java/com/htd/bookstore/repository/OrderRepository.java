@@ -14,7 +14,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
      * Find by user list.
      *
      * @param user the user
-     * @return the list
+     * @return the list of orders
      */
     List<Order> findByUser(User user);
 
@@ -22,7 +22,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
      * Find by status list.
      *
      * @param status the status
-     * @return the list
+     * @return the list of orders
      */
     List<Order> findByStatus(String status);
 }

@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 /**
- *
+ * This manages the orders and checkouts.
  */
 public class OrderService {
     private final OrderRepository orderRepository;
