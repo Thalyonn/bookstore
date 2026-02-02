@@ -22,7 +22,7 @@ async function setupNav() {
           <a href="register.html">Register</a>
         `;
     }
-    loadBooks(); // call from books.js
+
 }
 
 async function logout() {

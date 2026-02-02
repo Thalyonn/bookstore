@@ -1,0 +1,30 @@
+
+
+.back-home-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 8px 16px;
+    border: 2px solid #a7288a;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.back-home-btn:hover {
+    background-color: #a7288a;
+    color: white;
+    border-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(167, 40, 138, 0.2);
+}
+
+.back-home-btn span {
+    font-size: 1.2em;
+    transition: transform 0.3s ease;
+}
+
+.back-home-btn:hover span {
+    transform: translateX(-4px); /*moves arrow slightly on hover */
+}

@@ -1,3 +1,6 @@
+/*
+load cart with cart items and render it
+ */
 async function loadCart() {
     const response = await fetch("/api/cart", { credentials: "include" });
     if (!response.ok) {
@@ -25,7 +28,9 @@ async function loadCart() {
         container.appendChild(div);
     });
 }
-
+/*
+checkout items
+ */
 async function checkout() {
     const response = await fetch("/api/cart/checkout", {
         method: "POST",
@@ -38,7 +43,9 @@ async function checkout() {
         alert("Checkout failed.");
     }
 }
-
+/*
+clear the cart
+ */
 async function clearCart() {
     const response = await fetch("/api/cart", {
         method: "DELETE",

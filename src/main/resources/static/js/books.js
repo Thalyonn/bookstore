@@ -1,8 +1,11 @@
+//used to populate the categorySelect dropdown.
 async function loadCategories() {
+    //get all categories
     const res = await fetch("/api/categories");
     if (!res.ok) return;
     const categories = await res.json();
     const select = document.getElementById("categorySelect");
+
     categories.forEach(cat => {
         const option = document.createElement("option");
         option.value = cat.name;
@@ -10,13 +13,17 @@ async function loadCategories() {
         select.appendChild(option);
     });
 }
-
+/*
+loads all books
+ */
 async function loadBooks() {
     const response = await fetch("/api/books");
     const books = await response.json();
     renderBooks(books);
 }
-
+/*
+applies filters for title search and category
+ */
 async function applyFilters() {
     const search = document.getElementById("searchInput").value;
     const category = document.getElementById("categorySelect").value;
@@ -35,7 +42,9 @@ async function applyFilters() {
     const books = await response.json();
     renderBooks(books);
 }
-
+/*
+renders books passed into the grid
+ */
 function renderBooks(books) {
     const container = document.getElementById("books");
     container.innerHTML = "";
@@ -55,7 +64,9 @@ function renderBooks(books) {
     });
 }
 
-
+/*
+add to cart, but not confirm purchase.
+ */
 async function orderBook(bookId) {
     const response = await fetch(`/api/cart/add?bookId=${bookId}&quantity=1`, {
         method: "POST",
