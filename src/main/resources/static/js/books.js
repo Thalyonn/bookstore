@@ -1,7 +1,42 @@
+async function loadCategories() {
+    const res = await fetch("/api/categories");
+    if (!res.ok) return;
+    const categories = await res.json();
+    const select = document.getElementById("categorySelect");
+    categories.forEach(cat => {
+        const option = document.createElement("option");
+        option.value = cat.name;
+        option.textContent = cat.name;
+        select.appendChild(option);
+    });
+}
+
 async function loadBooks() {
     const response = await fetch("/api/books");
     const books = await response.json();
+    renderBooks(books);
+}
 
+async function applyFilters() {
+    const search = document.getElementById("searchInput").value;
+    const category = document.getElementById("categorySelect").value;
+
+    let url = "/api/books/filter";
+    const params = [];
+    if (search) params.push(`search=${encodeURIComponent(search)}`);
+    if (category) params.push(`category=${encodeURIComponent(category)}`);
+    if (params.length > 0) url += "?" + params.join("&");
+
+    const response = await fetch(url);
+    if (!response.ok) {
+        document.getElementById("books").innerHTML = "<p>No books found.</p>";
+        return;
+    }
+    const books = await response.json();
+    renderBooks(books);
+}
+
+function renderBooks(books) {
     const container = document.getElementById("books");
     container.innerHTML = "";
 
@@ -11,6 +46,7 @@ async function loadBooks() {
         card.innerHTML = `
             <h3>${book.title}</h3>
             <p>Author: ${book.author}</p>
+            <p>Category: ${book.category}</p>
             <p>Price: ${book.price} pesos</p>
             <p>Stock: ${book.stock}</p>
             ${loggedIn ? `<button onclick="orderBook(${book.bookId})">Order</button>` : ""}
@@ -18,6 +54,7 @@ async function loadBooks() {
         container.appendChild(card);
     });
 }
+
 
 async function orderBook(bookId) {
     const response = await fetch(`/api/cart/add?bookId=${bookId}&quantity=1`, {
@@ -30,3 +67,5 @@ async function orderBook(bookId) {
         alert("Failed to add book to cart.");
     }
 }
+
+

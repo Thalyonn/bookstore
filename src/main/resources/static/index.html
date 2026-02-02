@@ -5,7 +5,8 @@
     <title>Bookstore</title>
     <link rel="stylesheet" href="css/header.css">
     <style>
-
+        .filters { margin-bottom: 1em; display: flex; gap: 1em; }
+        .filters input, .filters select, .filters button { padding: 0.5em; font-size: 1em; }
         .book-grid { display: flex; flex-wrap: wrap; gap: 1em; }
         .book-card { background: white; border: 1px solid #ddd; border-radius: 6px; width: 200px; padding: 1em; text-align: center; }
         .book-card h3 { margin: 0.5em 0; font-size: 1.1em; }
@@ -24,12 +25,26 @@
 
 <section>
     <h2>Available Books</h2>
+
+    <!-- Filters -->
+    <div class="filters">
+        <input type="text" id="searchInput" placeholder="Search books...">
+        <select id="categorySelect">
+            <option value="">All Categories</option>
+            <!-- categories will be populated dynamically -->
+        </select>
+        <button onclick="applyFilters()">Filter</button>
+    </div>
+
     <div id="books" class="book-grid"></div>
 </section>
+
 <script src="js/nav.js"></script>
 <script src="js/books.js"></script>
 <script>
     setupNav();
+    loadCategories();
+    loadBooks();
 </script>
 </body>
 </html>

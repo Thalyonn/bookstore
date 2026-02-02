@@ -103,8 +103,15 @@ public class BookController {
     }
 
 
-    @GetMapping
-    public List<Book> getBooks(
+    /**
+     * Filter books by search keyword and/or category.
+     *
+     * @param search   optional search keyword
+     * @param category optional category name
+     * @return list of book responses
+     */
+    @GetMapping("/filter")
+    public ResponseEntity<List<BookResponse>> getBooks(
             @RequestParam(required = false) String search,
             @RequestParam(required = false) String category) {
 
@@ -112,8 +119,20 @@ public class BookController {
         if (category != null && !category.isBlank()) {
             cat = categoryService.findByName(category);
         }
-        return bookService.filterBooks(search, cat);
+
+        List<Book> books = bookService.filterBooks(search, cat);
+
+        List<BookResponse> responses = books.stream()
+                .map(BookResponse::new)
+                .toList();
+
+        if (responses.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(responses);
     }
+
 
 
 }
