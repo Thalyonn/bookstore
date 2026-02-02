@@ -27,10 +27,10 @@ public class CartService {
 
     /**
      * Adds Book to the cart of the user
-     * @param user
-     * @param bookId
-     * @param quantity
-     * @return CartItem
+     * @param user The user who owns the cart to add the book to.
+     * @param bookId The bookId of the book to add to the cart.
+     * @param quantity The quantity of the book to be added to the cart.
+     * @return The CartItem that was added to the repository.
      */
     @Transactional
     public CartItem addBookToCart(User user, Long bookId, int quantity) {
@@ -66,8 +66,8 @@ public class CartService {
 
     /**
      * Get the users cart if it exists otherwise make a new one
-     * @param user
-     * @return ShoppingCart
+     * @param user The owner of the cart to get from.
+     * @return ShoppingCart owned by the user passed.
      */
     public ShoppingCart getCartByUser(User user) {
         return shoppingCartRepository.findByUser(user).orElseGet(() -> {
@@ -79,8 +79,8 @@ public class CartService {
 
     /**
      * Gets cart items of a user
-     * @param user
-     * @return List<CartItem> of current user
+     * @param user The user who owns the cart to get the items from.
+     * @return List<CartItem> of current user.
      */
     public List<CartItem> getCartItems(User user) {
         ShoppingCart cart = getCartByUser(user);
@@ -89,7 +89,7 @@ public class CartService {
 
     /**
      * Delete all items in the users cart
-     * @param user
+     * @param user The user whose cart will get deleted.
      */
     @Transactional
     public void clearCart(User user) {

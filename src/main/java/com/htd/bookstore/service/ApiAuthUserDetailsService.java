@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-/*
+/**
 The purpose of this custom implementation is for Spring to be able to use
 loadUserByUsername with the data from our repository of users.
  */
@@ -17,6 +17,12 @@ public class ApiAuthUserDetailsService implements UserDetailsService {
     public ApiAuthUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+    /**
+     * Returns a UserDetails with details built from the user repository.
+     * @param username Username to use to find the user from repository.
+     * @return UserDetails object created from user from the database.
+     */
     @Override
     public UserDetails loadUserByUsername(String username) {
         User user = userRepository.findByUsername(username)

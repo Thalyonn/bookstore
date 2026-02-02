@@ -25,10 +25,20 @@ public class OrderService {
         this.bookRepository = bookRepository;
     }
 
+    /**
+     * Gets order of the user.
+     * @param user The user whose orders are gotten.
+     * @return The List<Order> of user orders.
+     */
     public List<Order> getOrdersByUser(User user) {
         return orderRepository.findByUser(user);
     }
-    //to do: clear items in cart after successful checkout
+
+    /**
+     * Checkout the cart items and turns them into an order.
+     * @param user The user whose cart will be checked-out.
+     * @return The order of the user.
+     */
     @Transactional
     public Order checkout(User user) {
         //checkout everything in the users cart

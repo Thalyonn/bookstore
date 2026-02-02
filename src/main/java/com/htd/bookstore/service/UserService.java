@@ -23,8 +23,8 @@ public class UserService {
 
     /**
      * Registers a new user into the user repository.
-     * @param username
-     * @param password
+     * @param username The username to register.
+     * @param password The password to register.
      * @return the user that was saved to the repository
      * @throws IllegalArgumentException if username already exists in database
      */
@@ -45,7 +45,7 @@ public class UserService {
 
     /**
      * Gets a user given a username.
-     * @param username
+     * @param username The username of the User.
      * @return an Optional of User based on username found in user repository
      */
     public Optional<User> getUserByUsername(String username) {

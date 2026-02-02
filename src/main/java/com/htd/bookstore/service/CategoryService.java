@@ -22,6 +22,12 @@ public class CategoryService {
     public Category addCategory(Category category) {
         return categoryRepository.save(category);
     }
+
+    /**
+     * Finds the category object from the repository given a name.
+     * @param name The name of the category.
+     * @return Category found by the categoryRepository given a name.
+     */
     public Category findByName(String name) {
         return categoryRepository.findByName(name).orElse(null);
     }
