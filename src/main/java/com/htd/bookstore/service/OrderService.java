@@ -58,6 +58,7 @@ public class OrderService {
             totalPrice = totalPrice.add(orderItem.getPrice()
                     .multiply(BigDecimal.valueOf(cartItem.getQuantity())));
             orderItemRepository.save(orderItem);
+            order.getItems().add(orderItem);
         }
         order.setTotalAmount(totalPrice);
         Order returnOrder = orderRepository.save(order);
