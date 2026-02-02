@@ -12,16 +12,35 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+/**
+ * The type User controller.
+ */
 @Controller
 @RequestMapping("/api/users")
 public class UserController {
     private final UserRepository userRepository;
+    /**
+     * The User service.
+     */
     UserService userService;
+
+    /**
+     * Instantiates a new User controller.
+     *
+     * @param userService    the user service
+     * @param userRepository the user repository
+     */
     UserController(UserService userService, UserRepository userRepository) {
         this.userService = userService;
         this.userRepository = userRepository;
     }
 
+    /**
+     * Register user response entity.
+     *
+     * @param payload the payload
+     * @return the response entity
+     */
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody Map<String, String> payload) {
         UserResponse userResponse;
@@ -36,6 +55,12 @@ public class UserController {
 
     }
 
+    /**
+     * Current user response entity.
+     *
+     * @param userDetails the user details
+     * @return the response entity
+     */
     @GetMapping("/me")
     public ResponseEntity<Map<String, String>> currentUser(@AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null) {

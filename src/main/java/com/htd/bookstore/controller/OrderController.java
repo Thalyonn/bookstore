@@ -17,16 +17,38 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type Order controller.
+ */
 @RestController
 @RequestMapping("/api/orders")
 class OrderController {
+    /**
+     * The Order service.
+     */
     OrderService orderService;
+    /**
+     * The User service.
+     */
     UserService userService;
+
+    /**
+     * Instantiates a new Order controller.
+     *
+     * @param orderService the order service
+     * @param userService  the user service
+     */
     public OrderController(OrderService orderService, UserService userService) {
         this.orderService = orderService;
         this.userService = userService;
     }
 
+    /**
+     * Gets orders.
+     *
+     * @param userDetails the user details
+     * @return the orders
+     */
     @GetMapping
     public ResponseEntity<?> getOrders(@AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null) {

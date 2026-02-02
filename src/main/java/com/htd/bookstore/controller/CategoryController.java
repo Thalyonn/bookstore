@@ -11,12 +11,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+/**
+ * The type Category controller.
+ */
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
 
     private final CategoryService categoryService;
 
+    /**
+     * Instantiates a new Category controller.
+     *
+     * @param categoryService the category service
+     */
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
