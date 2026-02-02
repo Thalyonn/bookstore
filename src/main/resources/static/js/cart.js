@@ -33,7 +33,7 @@ async function checkout() {
     });
     if (response.ok) {
         alert("Order placement has been successfull!");
-        window.location.href = "home.html";
+        window.location.href = "index.html";
     } else {
         alert("Checkout failed.");
     }

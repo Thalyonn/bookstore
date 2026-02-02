@@ -9,7 +9,7 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
         credentials: "include" //keep the session cookie
     }).then(response => {
         if (response.ok) {
-            window.location.href = "/home.html";
+            window.location.href = "/index.html";
         } else {
             document.getElementById("message").innerText = "Login failed!";
         }

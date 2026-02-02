@@ -22,7 +22,7 @@ public class SecurityConfiguration {
                         .anyRequest().permitAll() // allow all requests
                 ).formLogin(
                     form -> form.loginPage("/login")
-                            .defaultSuccessUrl("/home.html", true)
+                            .defaultSuccessUrl("/index.html", true)
                             .permitAll()
 
                 )
