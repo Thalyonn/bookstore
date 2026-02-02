@@ -20,7 +20,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class OrderServiceTest {
@@ -101,11 +101,43 @@ class OrderServiceTest {
     }
     @Test
     void checkoutCartEmpty() {
+        User user = new User();
+        user.setUsername("Jakob");
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUser(user);
 
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> orderService.checkout(user));
+        assertEquals("User cart is empty", exception.getMessage());
+        //verify that orderItemRepository save isn't called.
+        verify(orderItemRepository, never()).save(any(OrderItem.class));
     }
 
     @Test
     void checkoutCartNotEnoughStock() {
+        User user = new User();
+        user.setUsername("Jakob");
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUser(user);
+
+        Book book = new Book();
+        book.setTitle("The Good Book");
+        book.setAuthor("Jason");
+        book.setPrice(new BigDecimal(10));
+        book.setStock(0);
+
+        CartItem cartItem = new CartItem();
+        cartItem.setQuantity(1);
+        cartItem.setCart(shoppingCart);
+        cartItem.setBook(book);
+
+        List<CartItem> cartItemList = new ArrayList<>();
+        cartItemList.add(cartItem);
+        when(cartService.getCartItems(user)).thenReturn(cartItemList);
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> orderService.checkout(user));
+        assertEquals("Not enough stock.", exception.getMessage());
+        //verify that orderItemRepository save isn't called.
+        verify(orderItemRepository, never()).save(any(OrderItem.class));
 
     }
 }
