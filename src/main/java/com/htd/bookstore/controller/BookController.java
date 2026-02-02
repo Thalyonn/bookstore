@@ -6,24 +6,42 @@ import com.htd.bookstore.model.Category;
 import com.htd.bookstore.service.BookService;
 import com.htd.bookstore.service.CategoryService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The book controller.
+ */
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
+    /**
+     * The Book service.
+     */
     BookService bookService;
+    /**
+     * The Category service.
+     */
     CategoryService categoryService;
+
+    /**
+     * Instantiates a new Book controller.
+     *
+     * @param bookService     the book service
+     * @param categoryService the category service
+     */
     public BookController(BookService bookService,  CategoryService categoryService) {
         this.bookService = bookService;
         this.categoryService = categoryService;
     }
 
+    /**
+     * Find all response entity.
+     *
+     * @return the response entity
+     */
     @GetMapping
     public ResponseEntity<List<BookResponse>> findAll() {
         List<Book> books = bookService.getAllBooks();
@@ -32,6 +50,12 @@ public class BookController {
         return ResponseEntity.ok(responses);
     }
 
+    /**
+     * Find by id response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @GetMapping("/{id}")
     public ResponseEntity<BookResponse> findById(@PathVariable Long id) {
         Optional<Book> book = bookService.getBookById(id);
@@ -44,6 +68,12 @@ public class BookController {
         }
     }
 
+    /**
+     * Find by category response entity.
+     *
+     * @param category the category
+     * @return the response entity
+     */
     @GetMapping("/category/{category}")
     public ResponseEntity<List<BookResponse>> findByCategory(@PathVariable String category) {
         List<Book> books = bookService.getBooksByCategory(categoryService.findByName(category));
@@ -55,6 +85,12 @@ public class BookController {
         }
     }
 
+    /**
+     * Find by title response entity of BookResponses.
+     *
+     * @param title the title
+     * @return the response entity
+     */
     @GetMapping("/search/{title}")
     public ResponseEntity<List<BookResponse>> findByTitle(@PathVariable String title) {
         List<Book> books = bookService.searchBooks(title);
@@ -65,5 +101,19 @@ public class BookController {
             return ResponseEntity.ok(books.stream().map(BookResponse::new).toList());
         }
     }
+
+
+    @GetMapping
+    public List<Book> getBooks(
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) String category) {
+
+        Category cat = null;
+        if (category != null && !category.isBlank()) {
+            cat = categoryService.findByName(category);
+        }
+        return bookService.filterBooks(search, cat);
+    }
+
 
 }

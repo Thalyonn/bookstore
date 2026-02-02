@@ -61,4 +61,33 @@ public class BookService {
     public Book addBook(Book book) {
         return bookRepository.save(book);
     }
+
+    /**
+     * Searches for books given a keyword and category.
+     * @param keyword Keyword of the title to find.
+     * @param category Category of the book to find.
+     * @return List of books matching the keyword and category criteria.
+     */
+    public List<Book> searchBooksByCategory(String keyword, Category category) {
+        return bookRepository.findByTitleContainingIgnoreCaseAndCategory(keyword, category);
+
+    }
+
+    /**
+     * A method to unify the other search methods by Title keyword and Category.
+     * @param keyword Keyword of the title to find.
+     * @param category Category of the book to find.
+     * @return List of books matching the keyword or category criteria.
+     */
+    public List<Book> filterBooks(String keyword, Category category) {
+        if (keyword != null && !keyword.isBlank() && category != null) {
+            return searchBooksByCategory(keyword, category);
+        } else if (keyword != null && !keyword.isBlank()) {
+            return searchBooks(keyword);
+        } else if (category != null) {
+            return getBooksByCategory(category);
+        } else {
+            return getAllBooks();
+        }
+    }
 }

@@ -16,17 +16,46 @@ import org.springframework.web.bind.annotation.*;
 import javax.swing.text.html.Option;
 import java.util.Optional;
 
+/**
+ * The type Cart controller.
+ */
 @RestController
 @RequestMapping("/api/cart")
 public class CartController {
+    /**
+     * The Order service.
+     */
     OrderService orderService;
+    /**
+     * The Cart service.
+     */
     CartService cartService;
+    /**
+     * The User service.
+     */
     UserService userService;
+
+    /**
+     * Instantiates a new Cart controller.
+     *
+     * @param orderService the order service
+     * @param cartService  the cart service
+     * @param userService  the user service
+     */
     public CartController(OrderService orderService, CartService cartService, UserService userService) {
         this.cartService = cartService;
         this.userService = userService;
         this.orderService = orderService;
     }
+
+    /**
+     * Add book to cart response entity.
+     *
+     * @param bookId      the book id
+     * @param quantity    the quantity
+     * @param userDetails the user details
+     * @return the response entity
+     */
     @PostMapping("/add")
     public ResponseEntity<?> addBookToCart(@RequestParam Long bookId,
                                            @RequestParam int quantity,
@@ -47,6 +76,12 @@ public class CartController {
 
     }
 
+    /**
+     * Gets cart by user.
+     *
+     * @param userDetails the user details
+     * @return the cart by user
+     */
     @GetMapping
     public ResponseEntity<?> getCartByUser(@AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null) {
@@ -61,6 +96,12 @@ public class CartController {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     * Checkout cart response entity.
+     *
+     * @param userDetails the user details
+     * @return the response entity
+     */
     @PostMapping("/checkout")
     public ResponseEntity<?> checkoutCart(@AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null) {
@@ -75,6 +116,12 @@ public class CartController {
         return ResponseEntity.ok(orderResponse);
     }
 
+    /**
+     * Delete cart response entity.
+     *
+     * @param userDetails the user details
+     * @return the response entity
+     */
     @DeleteMapping
     public ResponseEntity<?> deleteCart(@AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null) {

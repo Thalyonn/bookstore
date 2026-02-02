@@ -111,4 +111,95 @@ public class BookServiceTest {
         verify(bookRepository).save(book);
     }
 
+    @Test
+    @DisplayName("Search books by keyword and category")
+    void searchBooksByCategoryReturnsBooks() {
+        Category category = new Category();
+        category.setName("Fiction");
+
+        Book book = new Book();
+        book.setTitle("The Hunger Games");
+        book.setCategory(category);
+
+        when(bookRepository.findByTitleContainingIgnoreCaseAndCategory("hunger", category))
+                .thenReturn(Arrays.asList(book));
+        //search books by keyword and category
+        List<Book> result = bookService.searchBooksByCategory("hunger", category);
+        //should return the book with matching keyword and category
+        assertEquals(1, result.size());
+        assertEquals("The Hunger Games", result.get(0).getTitle());
+        verify(bookRepository).findByTitleContainingIgnoreCaseAndCategory("hunger", category);
+    }
+
+    @Test
+    @DisplayName("Filter books with both keyword and category")
+    void filterBooksKeywordAndCategory() {
+        Category category = new Category();
+        category.setName("Fiction");
+
+        Book book = new Book();
+        book.setTitle("Catching Fire");
+        book.setCategory(category);
+
+        when(bookRepository.findByTitleContainingIgnoreCaseAndCategory("fire", category))
+                .thenReturn(Arrays.asList(book));
+        //filter books with keyword and category
+        List<Book> result = bookService.filterBooks("fire", category);
+        //should return the book with matching keyword and category
+        assertEquals(1, result.size());
+        assertEquals("Catching Fire", result.get(0).getTitle());
+        verify(bookRepository).findByTitleContainingIgnoreCaseAndCategory("fire", category);
+    }
+
+    @Test
+    @DisplayName("Filter books with only keyword")
+    void filterBooksKeywordOnly() {
+        Book book = new Book();
+        book.setTitle("Mockingjay");
+
+        when(bookRepository.findByTitleContainingIgnoreCase("mock"))
+                .thenReturn(Arrays.asList(book));
+        //filter books with keyword only
+        List<Book> result = bookService.filterBooks("mock", null);
+        //should return the book with matching keyword
+        assertEquals(1, result.size());
+        assertEquals("Mockingjay", result.get(0).getTitle());
+        verify(bookRepository).findByTitleContainingIgnoreCase("mock");
+    }
+
+    @Test
+    @DisplayName("Filter books with only category")
+    void filterBooksCategoryOnly() {
+        Category category = new Category();
+        category.setName("Non-Fiction");
+
+        Book book = new Book();
+        book.setTitle("Educated");
+        book.setCategory(category);
+
+        when(bookRepository.findByCategory(category)).thenReturn(Arrays.asList(book));
+        //filter books with category only
+        List<Book> result = bookService.filterBooks(null, category);
+        //should return the book with matching category
+        assertEquals(1, result.size());
+        assertEquals("Educated", result.get(0).getTitle());
+        verify(bookRepository).findByCategory(category);
+    }
+
+    @Test
+    @DisplayName("Filter books with no keyword and no category")
+    void filterBooksNoKeywordNoCategory() {
+        Book book1 = new Book();
+        book1.setTitle("Book One");
+        Book book2 = new Book();
+        book2.setTitle("Book Two");
+
+        when(bookRepository.findAll()).thenReturn(Arrays.asList(book1, book2));
+        //filter books with no keyword and no category
+        List<Book> result = bookService.filterBooks(null, null);
+        //should return all books
+        assertEquals(2, result.size());
+        verify(bookRepository).findAll();
+    }
+
 }

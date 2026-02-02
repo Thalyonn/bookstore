@@ -12,12 +12,22 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+/**
+ *
+ */
 public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final CartService cartService;
     private final BookRepository bookRepository;
 
+    /**
+     *
+     * @param orderRepository
+     * @param orderItemRepository
+     * @param cartService
+     * @param bookRepository
+     */
     public OrderService(OrderRepository orderRepository, OrderItemRepository orderItemRepository, CartService cartService, BookRepository bookRepository) {
         this.orderRepository = orderRepository;
         this.orderItemRepository = orderItemRepository;
@@ -38,6 +48,7 @@ public class OrderService {
      * Checkout the cart items and turns them into an order.
      * @param user The user whose cart will be checked-out.
      * @return The order of the user.
+     * @throws IllegalStateException  if the user's cart is empty or if any cart item quantity exceeds the available book stock.
      */
     @Transactional
     public Order checkout(User user) {
