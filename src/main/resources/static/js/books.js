@@ -46,7 +46,7 @@ function renderBooks(books) {
         card.innerHTML = `
             <h3>${book.title}</h3>
             <p>Author: ${book.author}</p>
-            <p>Category: ${book.category}</p>
+            <p>Category: ${book.categoryName}</p>
             <p>Price: ${book.price} pesos</p>
             <p>Stock: ${book.stock}</p>
             ${loggedIn ? `<button onclick="orderBook(${book.bookId})">Order</button>` : ""}
