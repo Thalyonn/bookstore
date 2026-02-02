@@ -74,4 +74,18 @@ public class CartController {
         OrderResponse orderResponse = new OrderResponse(order);
         return ResponseEntity.ok(orderResponse);
     }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteCart(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        Optional<User> user = userService.getUserByUsername(userDetails.getUsername());
+        if (user.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        ShoppingCart cart = cartService.getCartByUser(user.get());
+        cartService.clearCart(user.get());
+        return ResponseEntity.ok(new CartResponse(cart));
+    }
 }

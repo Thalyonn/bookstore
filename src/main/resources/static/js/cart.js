@@ -38,3 +38,16 @@ async function checkout() {
         alert("Checkout failed.");
     }
 }
+
+async function clearCart() {
+    const response = await fetch("/api/cart", {
+        method: "DELETE",
+        credentials: "include"
+    });
+    if (response.ok) {
+        alert("Cart has been cleared!");
+        window.location.href = "cart.html";
+    } else {
+        alert("Cart clear failed.");
+    }
+}

@@ -123,7 +123,7 @@ public class CartServiceTest {
         );
 
         //asserts
-        assertEquals("Not enough stock.", exception.getMessage());
+        assertEquals("Not enough stock on " + book.getTitle(), exception.getMessage());
         //verify cartItem isn't saved
         verify(cartItemRepository, never()).save(any(CartItem.class));
     }
