@@ -125,7 +125,7 @@ public class CartServiceTest {
                 () -> cartService.addBookToCart(user, 3L, 5)
         );
 
-        //asserts
+        //assert the proper error message
         assertEquals("Not enough stock on " + book.getTitle(), exception.getMessage());
         //verify cartItem isn't saved
         verify(cartItemRepository, never()).save(any(CartItem.class));

@@ -25,10 +25,11 @@ public class CategoryServiceTest {
     void findCategoryByNameExists() {
         Category expectedCategory = new Category();
         expectedCategory.setName("Fantasy");
+        //when looking in the category repository and it finds the expected category
         when(categoryRepository.findByName("Fantasy")).thenReturn(Optional.of(expectedCategory));
 
         Category result = categoryService.findByName("Fantasy");
-
+        //Fantasy exists so it should not be null
         assertNotNull(result);
         assertEquals("Fantasy", result.getName());
         verify(categoryRepository).findByName("Fantasy");
@@ -37,10 +38,11 @@ public class CategoryServiceTest {
     void findCategoryByNameNotExists() {
         Category expectedCategory = new Category();
         expectedCategory.setName("History");
+        //tries to find the History category but it is not in database.
         when(categoryRepository.findByName("History")).thenReturn(Optional.empty());
 
         Category result = categoryService.findByName("History");
-
+        //should be null
         assertNull(result);
     }
 }
