@@ -8,6 +8,15 @@ import java.util.List;
 import java.util.Optional;
 
 
+/**
+ * The interface Shopping cart repository.
+ */
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long> {
+    /**
+     * Find by user optional.
+     *
+     * @param user the user
+     * @return the optional
+     */
     Optional<ShoppingCart> findByUser(User user);
 }

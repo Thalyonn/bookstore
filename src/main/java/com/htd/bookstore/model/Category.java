@@ -5,6 +5,9 @@ import lombok.*;
 
 import java.util.List;
 
+/**
+ * The type Category.
+ */
 @Entity
 @Table(name = "categories")
 @Data

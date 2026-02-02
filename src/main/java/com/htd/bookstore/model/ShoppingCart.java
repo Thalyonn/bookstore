@@ -6,6 +6,9 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * The type Shopping cart.
+ */
 @Entity
 @Table(name = "shopping_cart")
 @Data

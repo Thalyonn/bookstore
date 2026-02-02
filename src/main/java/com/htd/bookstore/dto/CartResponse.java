@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The type Cart response.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,6 +22,11 @@ public class CartResponse {
     private String username;
     private List<CartItemResponse> items;
 
+    /**
+     * Instantiates a new Cart response.
+     *
+     * @param shoppingCart the shopping cart
+     */
     public CartResponse(ShoppingCart shoppingCart) {
         this.cartId = shoppingCart.getCartId();
         this.createdAt = shoppingCart.getCreatedAt();

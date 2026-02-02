@@ -5,6 +5,9 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * The type User.
+ */
 @Entity
 @Table(name = "users")
 @Data

@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+/**
+ * The type Book response.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,6 +27,11 @@ public class BookResponse {
     private Long categoryId;
     private String categoryName;
 
+    /**
+     * Instantiates a new Book response.
+     *
+     * @param book the book
+     */
     public BookResponse(Book book) {
         this.bookId = book.getBookId();
         this.title = book.getTitle();

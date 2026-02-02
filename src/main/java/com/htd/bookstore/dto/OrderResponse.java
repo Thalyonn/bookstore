@@ -10,6 +10,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The type Order response.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,6 +23,12 @@ public class OrderResponse {
     private String status;
     private String username;
     private List<OrderItemResponse> items;
+
+    /**
+     * Instantiates a new Order response.
+     *
+     * @param order the order
+     */
     public OrderResponse(Order order) {
         orderId = order.getOrderId();
         orderDate = order.getOrderDate();

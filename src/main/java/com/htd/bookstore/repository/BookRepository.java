@@ -8,11 +8,48 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 
+/**
+ * The interface Book repository.
+ */
 public interface BookRepository extends JpaRepository<Book, Long> {
+    /**
+     * Find by title containing ignore case list.
+     *
+     * @param keyword the keyword
+     * @return the list
+     */
     List<Book> findByTitleContainingIgnoreCase(String keyword);
+
+    /**
+     * Find by author containing ignore case list.
+     *
+     * @param author the author
+     * @return the list
+     */
     List<Book> findByAuthorContainingIgnoreCase(String author);
+
+    /**
+     * Find by category list.
+     *
+     * @param category the category
+     * @return the list
+     */
     List<Book> findByCategory(Category category);
+
+    /**
+     * Find by title containing ignore case and category list.
+     *
+     * @param keyword  the keyword
+     * @param category the category
+     * @return the list
+     */
     List<Book> findByTitleContainingIgnoreCaseAndCategory(String keyword, Category category);
 
+    /**
+     * Gets books by book id.
+     *
+     * @param bookId the book id
+     * @return the books by book id
+     */
     Book getBooksByBookId(Long bookId);
 }

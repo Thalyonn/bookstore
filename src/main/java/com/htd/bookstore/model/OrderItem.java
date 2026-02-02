@@ -5,6 +5,9 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
+/**
+ * The type Order item.
+ */
 @Entity
 @Table(name = "order_items")
 @Data

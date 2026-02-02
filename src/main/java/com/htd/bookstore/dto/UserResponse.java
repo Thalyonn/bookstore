@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * The type User response.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,6 +21,11 @@ public class UserResponse {
     private LocalDateTime updatedAt;
     private String role;
 
+    /**
+     * Instantiates a new User response.
+     *
+     * @param user the user
+     */
     public UserResponse(User user) {
        this.userId = user.getUserId();
        this.username = user.getUsername();

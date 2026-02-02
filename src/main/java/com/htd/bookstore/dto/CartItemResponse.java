@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+/**
+ * The type Cart item response.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,6 +20,11 @@ public class CartItemResponse {
     private int quantity;
     private BigDecimal price;
 
+    /**
+     * Instantiates a new Cart item response.
+     *
+     * @param cartItem the cart item
+     */
     public CartItemResponse(CartItem cartItem) {
         this.bookId = cartItem.getBook().getBookId();
         this.title = cartItem.getBook().getTitle();

@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * The type Cart item.
+ */
 @Entity
 @Table(name = "cart_items")
 @Data

@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+/**
+ * The type Order item response.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,6 +23,12 @@ public class OrderItemResponse {
     private String author;
     private int quantity;
     private BigDecimal unitPrice;
+
+    /**
+     * Instantiates a new Order item response.
+     *
+     * @param orderItem the order item
+     */
     public OrderItemResponse(OrderItem orderItem) {
         this.orderItemId = orderItem.getOrderItemId();
         this.title = orderItem.getBook().getTitle();
