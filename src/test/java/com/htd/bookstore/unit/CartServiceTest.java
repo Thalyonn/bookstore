@@ -15,6 +15,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -167,5 +169,44 @@ public class CartServiceTest {
         //assert cart is owned by the user
         assertEquals(user, result.getUser());
         verify(shoppingCartRepository).save(any(ShoppingCart.class)); //save should be called once
+    }
+
+    @Test
+    @DisplayName("Get users' cart items.")
+    void returnCartItemsForUser() {
+        //set objects to be used for cartService.getCartItems(User)
+        User user = new User();
+        user.setUsername("Fumbles");
+
+        ShoppingCart cart = new ShoppingCart();
+        CartItem item1 = new CartItem();
+        CartItem item2 = new CartItem();
+        cart.setItems(Arrays.asList(item1, item2));
+
+        //stub for when shoppingCartRepository finds the user's cart
+        when(shoppingCartRepository.findByUser(user)).thenReturn(java.util.Optional.of(cart));
+
+        List<CartItem> result = cartService.getCartItems(user);
+        //the two cart items should be in the cart
+        assertEquals(2, result.size());
+        assertTrue(result.contains(item1));
+        assertTrue(result.contains(item2));
+    }
+
+    @Test
+    @DisplayName("Clear users' cart.")
+    void clearUsersCart() {
+        //create user and object to call clear cart
+        User user = new User();
+        user.setUsername("Fumbles");
+        ShoppingCart cart = new ShoppingCart();
+        cart.setUser(user);
+
+        when(shoppingCartRepository.findByUser(user)).thenReturn(java.util.Optional.of(cart));
+
+        cartService.clearCart(user);
+
+        //verify deleteByCart called with the user's cart
+        verify(cartItemRepository).deleteByCart(cart);
     }
 }
