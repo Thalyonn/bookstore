@@ -62,6 +62,7 @@ public class BookServiceTest {
     }
 
     @Test
+    @DisplayName("Search book by Keyword")
     void getsBookByKeywordReturnsABook() {
         Book book = new Book();
         book.setTitle("The Hunger Games");
