@@ -17,8 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -68,6 +67,7 @@ public class CartServiceTest {
     }
 
     @Test
+    @DisplayName("Add book item that isn't in the cart yet.")
     void addBookItemNotYetInCartSuccess() {
         //create objects to be used in cartService.addBookToCart call
         User user = new User();
@@ -98,6 +98,7 @@ public class CartServiceTest {
     }
 
     @Test
+    @DisplayName("Add book item that isn't in stock.")
     void addBookNoStockFailure() {
         //create objects to be used in cartService.addBookToCart call
         User user = new User();
@@ -126,5 +127,45 @@ public class CartServiceTest {
         assertEquals("Not enough stock on " + book.getTitle(), exception.getMessage());
         //verify cartItem isn't saved
         verify(cartItemRepository, never()).save(any(CartItem.class));
+    }
+
+    @Test
+    @DisplayName("Get cart by user when cart exists.")
+    void getCartShouldReturnExistingCartWhenFound() {
+        User user = new User();
+        user.setUsername("Fumbles");
+
+        ShoppingCart existingCart = new ShoppingCart();
+        existingCart.setUser(user);
+
+        when(shoppingCartRepository.findByUser(user)).thenReturn(Optional.of(existingCart));
+
+        ShoppingCart result = cartService.getCartByUser(user);
+        //same cart returned
+        assertSame(existingCart, result);
+        //save should not be called
+        verify(shoppingCartRepository, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("Get cart by user should create new cart when not found.")
+    void getCartShouldCreateNewCartWhenNotFound() {
+        User user = new User();
+        user.setUsername("Fumbles");
+
+        ShoppingCart newCart = new ShoppingCart();
+        newCart.setUser(user);
+
+        //when cart isn't found return empty
+        when(shoppingCartRepository.findByUser(user)).thenReturn(Optional.empty());
+        //return the cart when adding shopping cart to repository
+        when(shoppingCartRepository.save(any(ShoppingCart.class))).thenReturn(newCart);
+
+        ShoppingCart result = cartService.getCartByUser(user);
+        //assert cart exists
+        assertNotNull(result);
+        //assert cart is owned by the user
+        assertEquals(user, result.getUser());
+        verify(shoppingCartRepository).save(any(ShoppingCart.class)); //save should be called once
     }
 }
