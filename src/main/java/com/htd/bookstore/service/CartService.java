@@ -25,7 +25,13 @@ public class CartService {
 
     }
 
-    //add book to cart
+    /**
+     * Adds Book to the cart of the user
+     * @param user
+     * @param bookId
+     * @param quantity
+     * @return CartItem
+     */
     @Transactional
     public CartItem addBookToCart(User user, Long bookId, int quantity) {
         ShoppingCart shoppingCart = getCartByUser(user);
@@ -35,7 +41,6 @@ public class CartService {
         1. item already in cart, then we should just add the quantity
         2. item not yet in cart
         3. item stock not available
-
          */
         Optional<CartItem> existingItem = cartItemRepository.findByCartAndBook(shoppingCart, book);
         if (existingItem.isPresent()) {
@@ -43,12 +48,12 @@ public class CartService {
             cartItem.setQuantity(cartItem.getQuantity() + quantity);
             int newQuantity = cartItem.getQuantity();
             if(newQuantity > book.getStock()) {
-                throw new IllegalStateException("Not enough stock.");
+                throw new IllegalStateException("Not enough stock on " + book.getTitle());
             }
             return cartItemRepository.save(cartItem);
         }
         if(quantity > book.getStock()) {
-            throw new IllegalStateException("Not enough stock.");
+            throw new IllegalStateException("Not enough stock on " + book.getTitle());
         }
         CartItem item = new CartItem();
         item.setBook(book);
@@ -58,7 +63,12 @@ public class CartService {
 
         return cartItemRepository.save(item);
     }
-    //get cart if it exists otherwise make a new one
+
+    /**
+     * Get the users cart if it exists otherwise make a new one
+     * @param user
+     * @return ShoppingCart
+     */
     public ShoppingCart getCartByUser(User user) {
         return shoppingCartRepository.findByUser(user).orElseGet(() -> {
             ShoppingCart cart = new ShoppingCart();
@@ -67,11 +77,20 @@ public class CartService {
         });
     }
 
+    /**
+     * Gets cart items of a user
+     * @param user
+     * @return List<CartItem> of current user
+     */
     public List<CartItem> getCartItems(User user) {
         ShoppingCart cart = getCartByUser(user);
         return cart.getItems();
     }
 
+    /**
+     * Delete all items in the users cart
+     * @param user
+     */
     @Transactional
     public void clearCart(User user) {
         ShoppingCart cart = getCartByUser(user);
