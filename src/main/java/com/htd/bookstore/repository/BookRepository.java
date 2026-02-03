@@ -2,6 +2,8 @@ package com.htd.bookstore.repository;
 
 import com.htd.bookstore.model.Book;
 import com.htd.bookstore.model.Category;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +20,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @param keyword the keyword
      * @return the list
      */
-    List<Book> findByTitleContainingIgnoreCase(String keyword);
+    Page<Book> findByTitleContainingIgnoreCase(String keyword, Pageable pageable);
 
     /**
      * Find by author containing ignore case list.
@@ -34,7 +36,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @param category the category
      * @return the list
      */
-    List<Book> findByCategory(Category category);
+    Page<Book> findByCategory(Category category, Pageable pageable);
 
     /**
      * Find by title containing ignore case and category list.
@@ -43,7 +45,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
      * @param category the category
      * @return the list
      */
-    List<Book> findByTitleContainingIgnoreCaseAndCategory(String keyword, Category category);
+    Page<Book> findByTitleContainingIgnoreCaseAndCategory(String keyword, Category category, Pageable pageable);
 
     /**
      * Gets books by book id.
