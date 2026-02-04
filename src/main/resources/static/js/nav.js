@@ -1,4 +1,5 @@
 let loggedIn = false;
+let isAdmin = false;
 
 async function setupNav() {
     const response = await fetch("/api/users/me", { credentials: "include" });
@@ -9,11 +10,10 @@ async function setupNav() {
 
     if (data.authenticated === "true" && data.role === "ROLE_ADMIN") {
         loggedIn = true;
+        isAdmin = true;
         nav.innerHTML = `
           <span>Hello, ${data.username}</span>
           <a href="#" onclick="logout()">Logout</a>
-          <a href="/cart.html">Cart</a>
-          <a href="/orders.html">Orders</a>
           <a href="/admin.html">Admin</a>
         `;
     } else if(data.authenticated === "true"){
@@ -27,6 +27,7 @@ async function setupNav() {
     }
     else {
         loggedIn = false;
+        isAdmin = false;
         nav.innerHTML = `
           <a href="login.html">Login</a>
           <a href="register.html">Register</a>

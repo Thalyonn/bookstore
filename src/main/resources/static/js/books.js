@@ -73,7 +73,7 @@ function renderBooks(books) {
             <p>Category: ${book.categoryName}</p>
             <p>Price: ${book.price} pesos</p>
             <p>Stock: ${book.stock}</p>
-            ${loggedIn ? `<button onclick="orderBook(${book.bookId})">Order</button>` : ""}
+            ${loggedIn && !isAdmin ? `<button onclick="orderBook(${book.bookId})">Order</button>` : ""}
         `;
         container.appendChild(card);
     });
