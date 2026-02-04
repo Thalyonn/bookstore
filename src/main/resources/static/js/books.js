@@ -68,13 +68,16 @@ function renderBooks(books) {
         const card = document.createElement("div");
         card.className = "book-card";
         card.innerHTML = `
-            <h3>${book.title}</h3>
-            <p>Author: ${book.author}</p>
-            <p>Description: ${book.description}</p>
-            <p>Category: ${book.categoryName}</p>
-            <p>Price: ${book.price} pesos</p>
-            <p>Stock: ${book.stock}</p>
-            ${loggedIn && !isAdmin ? `<button onclick="orderBook(${book.bookId})">Order</button>` : ""}
+        
+        <h3>${book.title}</h3>
+                    <p>Author: ${book.author}</p>
+                    <p>Description: ${book.description}</p>
+                    <p>Category: ${book.categoryName}</p>
+                    <p>Price: ${book.price} pesos</p>
+                    <p>Stock: ${book.stock}</p>
+        
+            
+        ${loggedIn && !isAdmin ? `<button onclick="orderBook(${book.bookId})">Order</button>` : ""}
         `;
         container.appendChild(card);
     });
