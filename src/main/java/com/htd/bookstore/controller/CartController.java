@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.Option;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -68,6 +69,9 @@ public class CartController {
         if (user.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+        //check for negative quantity
+        if (quantity <= 0) { return ResponseEntity.badRequest()
+                .body(Map.of("error", "Quantity must be greater than zero")); }
         ShoppingCart cart = cartService.getCartByUser(user.get());
         //addbooktocart
         CartItem item = cartService.addBookToCart(user.get(), bookId, quantity);
