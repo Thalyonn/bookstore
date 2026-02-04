@@ -31,5 +31,7 @@ public class CategoryService {
     public Category findByName(String name) {
         return categoryRepository.findByName(name).orElse(null);
     }
+
+
 }
 

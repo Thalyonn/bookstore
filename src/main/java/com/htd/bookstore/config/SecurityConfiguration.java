@@ -37,10 +37,10 @@ public class SecurityConfiguration {
                         .requestMatchers( "/","/login","/register.html", "/api/users/register").permitAll()
 
                         //only for USER
-                        .requestMatchers("/api/orders/**").hasRole("USER")
-                        .requestMatchers("/api/cart/**").hasRole("USER")
+                        .requestMatchers("/api/orders/**", "/orders.html").hasRole("USER")
+                        .requestMatchers("/api/cart/**", "/cart.html").hasRole("USER")
 
-
+                        .requestMatchers("/admin.html").hasRole("ADMIN")
 
                         // Everything else requires authentication
                         .anyRequest().authenticated()

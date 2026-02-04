@@ -7,7 +7,16 @@ async function setupNav() {
     const nav = document.getElementById("nav");
     nav.innerHTML = "";
 
-    if (data.authenticated === "true") {
+    if (data.authenticated === "true" && data.role === "ROLE_ADMIN") {
+        loggedIn = true;
+        nav.innerHTML = `
+          <span>Hello, ${data.username}</span>
+          <a href="#" onclick="logout()">Logout</a>
+          <a href="/cart.html">Cart</a>
+          <a href="/orders.html">Orders</a>
+          <a href="/admin.html">Admin</a>
+        `;
+    } else if(data.authenticated === "true"){
         loggedIn = true;
         nav.innerHTML = `
           <span>Hello, ${data.username}</span>
@@ -15,7 +24,8 @@ async function setupNav() {
           <a href="/cart.html">Cart</a>
           <a href="/orders.html">Orders</a>
         `;
-    } else {
+    }
+    else {
         loggedIn = false;
         nav.innerHTML = `
           <a href="login.html">Login</a>

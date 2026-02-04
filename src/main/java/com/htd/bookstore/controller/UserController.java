@@ -5,6 +5,8 @@ import com.htd.bookstore.model.User;
 import com.htd.bookstore.repository.UserRepository;
 import com.htd.bookstore.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -47,6 +49,7 @@ public class UserController {
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/registerAdmin")
     public ResponseEntity<?> registerNewAdmin(@RequestBody Map<String, String> payload) {
         return registerUser(payload, "ADMIN");
@@ -79,7 +82,10 @@ public class UserController {
         }
         return ResponseEntity.ok(Map.of(
                 "authenticated", "true",
-                "username", userDetails.getUsername()
+                "username", userDetails.getUsername(),
+                "role", userDetails.getAuthorities().stream()
+                        .findFirst()
+                        .map(GrantedAuthority::getAuthority) .orElse("none")
         ));
     }
 
