@@ -77,10 +77,14 @@ public class BookController {
      * Find by category response entity.
      *
      * @param category the category
+     * @param page the page number
+     * @param size the size to return
+     * @param sortBy the value to sort by
      * @return the response entity
      */
     @GetMapping("/category/{category}")
-    public ResponseEntity<Page<BookResponse>> findByCategory(@PathVariable String category, @RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<Page<BookResponse>> findByCategory(@PathVariable String category,
+                                                             @RequestParam(defaultValue = "0") int page,
                                                              @RequestParam(defaultValue = "10")int size,
                                                              @RequestParam(defaultValue = "title") String sortBy) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
@@ -98,6 +102,9 @@ public class BookController {
      * Find by title response entity of BookResponses.
      *
      * @param title the title
+     * @param page the page number
+     * @param size the size to return
+     * @param sortBy the value to sort by
      * @return the response entity
      */
     @GetMapping("/search/{title}")
@@ -122,6 +129,9 @@ public class BookController {
      *
      * @param search   optional search keyword
      * @param category optional category name
+     * @param page the page number
+     * @param size the size to return
+     * @param sortBy the value to sort by
      * @return list of book responses
      */
     @GetMapping("/filter")

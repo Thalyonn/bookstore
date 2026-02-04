@@ -14,36 +14,42 @@ import java.util.List;
  * The interface Book repository.
  */
 public interface BookRepository extends JpaRepository<Book, Long> {
+
     /**
-     * Find by title containing keyword and ignore case list.
+     * Find by title containing keyword.
      *
-     * @param keyword the keyword
-     * @return the list
+     * @param keyword  the keyword
+     * @param pageable the pageable
+     * @return the page
      */
     Page<Book> findByTitleContainingIgnoreCase(String keyword, Pageable pageable);
 
     /**
-     * Find by author containing ignore case list.
+     * Find by author.
      *
      * @param author the author
      * @return the list
      */
     List<Book> findByAuthorContainingIgnoreCase(String author);
 
+
     /**
-     * Find by category list.
+     * Find by category page.
      *
      * @param category the category
-     * @return the list
+     * @param pageable the pageable
+     * @return the page
      */
     Page<Book> findByCategory(Category category, Pageable pageable);
 
+
     /**
-     * Find by title containing ignore case and category list.
+     * Find by title containing keyword and category.
      *
      * @param keyword  the keyword
      * @param category the category
-     * @return the list
+     * @param pageable the pageable
+     * @return the page
      */
     Page<Book> findByTitleContainingIgnoreCaseAndCategory(String keyword, Category category, Pageable pageable);
 
