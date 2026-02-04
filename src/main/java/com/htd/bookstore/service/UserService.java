@@ -30,7 +30,8 @@ public class UserService {
      */
     @Transactional
     public User registerUser(String username,
-                             String password
+                             String password,
+                             String role
                              ) {
         if (userRepository.findByUsername(username).isPresent())
         { throw new IllegalArgumentException("Username already exists"); }
@@ -38,7 +39,7 @@ public class UserService {
         user.setUsername(username);
         user.setPasswordHash(passwordEncoder.encode(password));
         user.setCreatedAt(LocalDateTime.now());
-        user.setRole("USER");
+        user.setRole(role);
         return userRepository.save(user);
 
     }

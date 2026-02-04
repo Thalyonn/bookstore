@@ -48,8 +48,5 @@ public class CategoryController {
 
         return ResponseEntity.ok(responses);
     }
-
-
-
 }
 

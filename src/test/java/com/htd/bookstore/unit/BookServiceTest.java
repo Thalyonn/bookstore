@@ -10,6 +10,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -67,15 +71,17 @@ public class BookServiceTest {
         Book book = new Book();
         book.setTitle("The Hunger Games");
 
-        when(bookRepository.findByTitleContainingIgnoreCase("hunger"))
-                .thenReturn(Arrays.asList(book));
-        //search book by keyword, hunger games should be found despite casing
-        List<Book> result = bookService.searchBooks("hunger");
-        //found hunger games book
-        assertEquals(1, result.size());
-        assertEquals("The Hunger Games", result.getFirst().getTitle());
-        verify(bookRepository).findByTitleContainingIgnoreCase("hunger");
+        Pageable pageable = PageRequest.of(0, 10);
+        when(bookRepository.findByTitleContainingIgnoreCase("hunger", pageable))
+                .thenReturn(new PageImpl<>(List.of(book), pageable, 1));
+
+        Page<Book> result = bookService.searchBooks("hunger", pageable);
+
+        assertEquals(1, result.getTotalElements());
+        assertEquals("The Hunger Games", result.getContent().get(0).getTitle());
+        verify(bookRepository).findByTitleContainingIgnoreCase("hunger", pageable);
     }
+
 
     @Test
     @DisplayName("Get books by category")
@@ -87,14 +93,17 @@ public class BookServiceTest {
         book.setTitle("Catching Fire");
         book.setCategory(category);
 
-        when(bookRepository.findByCategory(category)).thenReturn(Arrays.asList(book));
-        //get books given a category
-        List<Book> result = bookService.getBooksByCategory(category);
-        //should return the book with that category
-        assertEquals(1, result.size());
-        assertEquals("Catching Fire", result.get(0).getTitle());
-        verify(bookRepository).findByCategory(category);
+        Pageable pageable = PageRequest.of(0, 10);
+        when(bookRepository.findByCategory(category, pageable))
+                .thenReturn(new PageImpl<>(List.of(book), pageable, 1));
+
+        Page<Book> result = bookService.getBooksByCategory(category, pageable);
+
+        assertEquals(1, result.getTotalElements());
+        assertEquals("Catching Fire", result.getContent().get(0).getTitle());
+        verify(bookRepository).findByCategory(category, pageable);
     }
+
 
     @Test
     @DisplayName("Add a new book")
@@ -112,26 +121,6 @@ public class BookServiceTest {
     }
 
     @Test
-    @DisplayName("Search books by keyword and category")
-    void searchBooksByCategoryReturnsBooks() {
-        Category category = new Category();
-        category.setName("Fiction");
-
-        Book book = new Book();
-        book.setTitle("The Hunger Games");
-        book.setCategory(category);
-
-        when(bookRepository.findByTitleContainingIgnoreCaseAndCategory("hunger", category))
-                .thenReturn(Arrays.asList(book));
-        //search books by keyword and category
-        List<Book> result = bookService.searchBooksByCategory("hunger", category);
-        //should return the book with matching keyword and category
-        assertEquals(1, result.size());
-        assertEquals("The Hunger Games", result.get(0).getTitle());
-        verify(bookRepository).findByTitleContainingIgnoreCaseAndCategory("hunger", category);
-    }
-
-    @Test
     @DisplayName("Filter books with both keyword and category")
     void filterBooksKeywordAndCategory() {
         Category category = new Category();
@@ -141,30 +130,33 @@ public class BookServiceTest {
         book.setTitle("Catching Fire");
         book.setCategory(category);
 
-        when(bookRepository.findByTitleContainingIgnoreCaseAndCategory("fire", category))
-                .thenReturn(Arrays.asList(book));
-        //filter books with keyword and category
-        List<Book> result = bookService.filterBooks("fire", category);
-        //should return the book with matching keyword and category
-        assertEquals(1, result.size());
-        assertEquals("Catching Fire", result.get(0).getTitle());
-        verify(bookRepository).findByTitleContainingIgnoreCaseAndCategory("fire", category);
+        Pageable pageable = PageRequest.of(0, 10);
+        when(bookRepository.findByTitleContainingIgnoreCaseAndCategory("fire", category, pageable))
+                .thenReturn(new PageImpl<>(List.of(book), pageable, 1));
+        //filter books by title keyword fire and the category
+        Page<Book> result = bookService.filterBooks("fire", category, pageable);
+        //should return by keyword and category
+        assertEquals(1, result.getTotalElements());
+        assertEquals("Catching Fire", result.getContent().get(0).getTitle());
+        verify(bookRepository).findByTitleContainingIgnoreCaseAndCategory("fire", category, pageable);
     }
+
+
 
     @Test
     @DisplayName("Filter books with only keyword")
     void filterBooksKeywordOnly() {
         Book book = new Book();
         book.setTitle("Mockingjay");
-
-        when(bookRepository.findByTitleContainingIgnoreCase("mock"))
-                .thenReturn(Arrays.asList(book));
+        Pageable pageable = PageRequest.of(0, 10);
+        when(bookRepository.findByTitleContainingIgnoreCase("mock", pageable))
+                .thenReturn(new PageImpl<>(List.of(book), pageable, 1));
         //filter books with keyword only
-        List<Book> result = bookService.filterBooks("mock", null);
+        Page<Book> result = bookService.filterBooks("mock", null, pageable);
         //should return the book with matching keyword
-        assertEquals(1, result.size());
-        assertEquals("Mockingjay", result.get(0).getTitle());
-        verify(bookRepository).findByTitleContainingIgnoreCase("mock");
+        assertEquals(1, result.getTotalElements());
+        assertEquals("Mockingjay", result.getContent().get(0).getTitle());
+        verify(bookRepository).findByTitleContainingIgnoreCase("mock", pageable);
     }
 
     @Test
@@ -176,14 +168,14 @@ public class BookServiceTest {
         Book book = new Book();
         book.setTitle("Educated");
         book.setCategory(category);
-
-        when(bookRepository.findByCategory(category)).thenReturn(Arrays.asList(book));
+        Pageable pageable = PageRequest.of(0, 10);
+        when(bookRepository.findByCategory(category, pageable)).thenReturn(new PageImpl<>(List.of(book), pageable, 1));
         //filter books with category only
-        List<Book> result = bookService.filterBooks(null, category);
+        Page<Book> result = bookService.filterBooks(null, category, pageable);
         //should return the book with matching category
-        assertEquals(1, result.size());
-        assertEquals("Educated", result.get(0).getTitle());
-        verify(bookRepository).findByCategory(category);
+        assertEquals(1, result.getTotalElements());
+        assertEquals("Educated", result.getContent().get(0).getTitle());
+        verify(bookRepository).findByCategory(category, pageable);
     }
 
     @Test
@@ -193,13 +185,15 @@ public class BookServiceTest {
         book1.setTitle("Book One");
         Book book2 = new Book();
         book2.setTitle("Book Two");
-
-        when(bookRepository.findAll()).thenReturn(Arrays.asList(book1, book2));
+        Pageable pageable = PageRequest.of(0, 10);
+        List<Book> books = Arrays.asList(book1, book2);
+        Page<Book> page = new PageImpl<>(books, pageable, books.size());
+        when(bookRepository.findAll(pageable)).thenReturn(page);
         //filter books with no keyword and no category
-        List<Book> result = bookService.filterBooks(null, null);
+        Page<Book> result = bookService.filterBooks(null, null, pageable);
         //should return all books
-        assertEquals(2, result.size());
-        verify(bookRepository).findAll();
+        assertEquals(2, result.getTotalElements());
+        verify(bookRepository).findAll(pageable);
     }
 
 }

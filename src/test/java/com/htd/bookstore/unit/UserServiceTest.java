@@ -60,7 +60,7 @@ class UserServiceTest {
         //return same user when saving a User
         when(userRepository.save(any(User.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
-        User user = userService.registerUser(username, password);
+        User user = userService.registerUser(username, password, "USER");
 
         assertTrue(user.getUsername().equals(username));
         assertFalse(password.equals(user.getPasswordHash()));
@@ -78,7 +78,7 @@ class UserServiceTest {
 
 
         assertThrows(IllegalArgumentException.class, () -> {
-            userService.registerUser(username, password);
+            userService.registerUser(username, password, "USER");
         });
 
     }

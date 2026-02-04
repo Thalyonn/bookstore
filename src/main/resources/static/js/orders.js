@@ -19,7 +19,7 @@ async function loadOrders() {
             <h3>Order ID#${order.orderId}</h3>
             <p><strong>Date:</strong> ${new Date(order.orderDate).toLocaleString()}</p>
             <p><strong>Status:</strong> ${order.status}</p>
-            <p><strong>Total:</strong> ${order.totalAmount.toFixed(2)}₱</p>
+            <p><strong>Total:</strong> ₱${order.totalAmount.toFixed(2)}</p>
         `;
         orderDiv.appendChild(header);
         const itemsGrid = document.createElement("div");
@@ -31,8 +31,8 @@ async function loadOrders() {
                 <h4>${item.title}</h4>
                 <p><em>${item.author}</em></p>
                 <p>Quantity: ${item.quantity}</p>
-                <p>Unit Price: ${item.unitPrice.toFixed(2)}₱</p>
-                <p>Subtotal: ${(item.quantity * item.unitPrice).toFixed(2)}₱</p>
+                <p>Unit Price: ₱${item.unitPrice.toFixed(2)}</p>
+                <p>Subtotal: ₱${(item.quantity * item.unitPrice).toFixed(2)}</p>
             `;
             itemsGrid.appendChild(itemDiv);
         });
