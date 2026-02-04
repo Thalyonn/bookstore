@@ -70,6 +70,7 @@ function renderBooks(books) {
         card.innerHTML = `
             <h3>${book.title}</h3>
             <p>Author: ${book.author}</p>
+            <p>Description: ${book.description}</p>
             <p>Category: ${book.categoryName}</p>
             <p>Price: ${book.price} pesos</p>
             <p>Stock: ${book.stock}</p>
