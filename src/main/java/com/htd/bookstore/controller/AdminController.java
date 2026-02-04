@@ -36,8 +36,21 @@ class AdminController {
         book.setTitle(payload.get("title"));
         book.setAuthor(payload.get("author"));
         book.setDescription(payload.get("description"));
-        book.setPrice(new BigDecimal(payload.get("price")));
-        book.setStock(Integer.parseInt(payload.get("stock")));
+
+        BigDecimal price = new BigDecimal(payload.get("price"));
+        if (price.compareTo(BigDecimal.ZERO) < 0) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", "Price must be zero or positive"));
+        }
+        book.setPrice(price);
+
+        int stock = Integer.parseInt(payload.get("stock"));
+        if (stock < 0) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", "Stock must be zero or positive"));
+        }
+        book.setStock(stock);
+
         if (category == null) {
             category = new Category();
             category.setName(payload.get("category"));
@@ -50,4 +63,5 @@ class AdminController {
 
         return ResponseEntity.ok(bookResponse);
     }
+
 }
