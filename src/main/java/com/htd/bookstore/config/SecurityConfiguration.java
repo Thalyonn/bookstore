@@ -29,9 +29,25 @@ public class SecurityConfiguration {
         http
                 .csrf(csrf -> csrf.disable()) //only disabled for dev purposes
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll() // allow all requests
+                        //these endpoints are public
+                        .requestMatchers("/api/users/register", "/api/users/me").permitAll()
+                        .requestMatchers("/api/categories/**").permitAll()
+                        .requestMatchers("/api/books/**").permitAll()
+                        .requestMatchers( "/index.html", "/css/**", "/js/**").permitAll()
+                        .requestMatchers( "/","/login","/register.html", "/api/users/register").permitAll()
+
+                        //only for USER
+                        .requestMatchers("/api/orders/**").hasRole("USER")
+                        .requestMatchers("/api/cart/**").hasRole("USER")
+
+
+
+                        // Everything else requires authentication
+                        .anyRequest().authenticated()
                 ).formLogin(
                     form -> form.loginPage("/login")
+                            .loginPage("/login.html") //serve the login.html
+                            .loginProcessingUrl("/login") //letting spring handle the POST /login
                             .defaultSuccessUrl("/index.html", true)
                             .permitAll()
 

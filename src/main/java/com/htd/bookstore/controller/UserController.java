@@ -42,11 +42,21 @@ public class UserController {
      * @return the response entity
      */
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody Map<String, String> payload) {
+    public ResponseEntity<?> registerNormalUser(@RequestBody Map<String, String> payload) {
+        return registerUser(payload, "USER");
+
+    }
+
+    @PostMapping("/registerAdmin")
+    public ResponseEntity<?> registerNewAdmin(@RequestBody Map<String, String> payload) {
+        return registerUser(payload, "ADMIN");
+    }
+
+    public ResponseEntity<?> registerUser(Map<String, String> payload, String role) {
         UserResponse userResponse;
         try {
             System.out.println("registering user " +  payload.get("username"));
-            User newUser = userService.registerUser(payload.get("username"), payload.get("password"));
+            User newUser = userService.registerUser(payload.get("username"), payload.get("password"), role);
             userResponse = new UserResponse(newUser.getUserId(), newUser.getUsername(), newUser.getCreatedAt(), newUser.getUpdatedAt(), newUser.getRole());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -54,6 +64,7 @@ public class UserController {
         return ResponseEntity.ok(userResponse);
 
     }
+
 
     /**
      * Current user response entity.
