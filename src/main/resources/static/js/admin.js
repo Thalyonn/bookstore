@@ -12,8 +12,10 @@ document.getElementById("addBookForm").addEventListener("submit", async function
 
     if (response.ok) {
         document.getElementById("message").innerText = "Book added successfully.";
+        alert("Book added.");
     } else {
         document.getElementById("message").innerText = "Failed to add book.";
+        alert("Book failed to add.");
     }
 });
 
@@ -22,7 +24,7 @@ document.getElementById("registerAdminForm").addEventListener("submit", async fu
     const formData = new FormData(this);
     const payload = Object.fromEntries(formData.entries());
 
-    const response = await fetch("/api/admin/registerAdmin", {
+    const response = await fetch("/api/users/registerAdmin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -31,7 +33,10 @@ document.getElementById("registerAdminForm").addEventListener("submit", async fu
 
     if (response.ok) {
         document.getElementById("message").innerText = "Admin registered successfully.";
+        alert("Admin Registered successfully.");
     } else {
         document.getElementById("message").innerText = "Failed to register a new admin.";
+        alert("Admin Registration failed.");
+
     }
 });
