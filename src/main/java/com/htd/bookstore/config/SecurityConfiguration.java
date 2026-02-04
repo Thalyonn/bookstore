@@ -40,7 +40,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/orders/**", "/orders.html").hasRole("USER")
                         .requestMatchers("/api/cart/**", "/cart.html").hasRole("USER")
 
-                        .requestMatchers("/admin.html").hasRole("ADMIN")
+                        .requestMatchers("/admin.html", "/api/admin/addBook").hasRole("ADMIN")
 
                         // Everything else requires authentication
                         .anyRequest().authenticated()

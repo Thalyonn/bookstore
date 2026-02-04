@@ -1,6 +1,6 @@
 //pagination stuff
 let currentPage = 0;
-let pageSize = 2;
+let pageSize = 10
 let totalPages = 0;
 //used to populate the categorySelect dropdown.
 async function loadCategories() {
