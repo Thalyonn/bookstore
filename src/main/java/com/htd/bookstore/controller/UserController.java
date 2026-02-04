@@ -49,12 +49,25 @@ public class UserController {
 
     }
 
+    /**
+     * Register new admin.
+     *
+     * @param payload the payload
+     * @return the response entity
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/registerAdmin")
     public ResponseEntity<?> registerNewAdmin(@RequestBody Map<String, String> payload) {
         return registerUser(payload, "ADMIN");
     }
 
+    /**
+     * Register user helper class.
+     *
+     * @param payload the payload
+     * @param role    the role
+     * @return the response entity
+     */
     public ResponseEntity<?> registerUser(Map<String, String> payload, String role) {
         UserResponse userResponse;
         try {

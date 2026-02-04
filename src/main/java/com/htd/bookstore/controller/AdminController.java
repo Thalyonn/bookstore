@@ -16,17 +16,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.math.BigDecimal;
 import java.util.Map;
 
+/**
+ * The type Admin controller.
+ */
 @RestController
 @RequestMapping("/api/admin")
 class AdminController {
     private final BookService bookService;
     private final CategoryService categoryService;
 
+    /**
+     * Instantiates a new Admin controller.
+     *
+     * @param bookService     the book service
+     * @param categoryService the category service
+     */
     public AdminController(BookService bookService, CategoryService categoryService) {
         this.bookService = bookService;
         this.categoryService = categoryService;
     }
 
+    /**
+     * Add book response entity.
+     *
+     * @param payload the payload
+     * @return the response entity
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/addBook")
     public ResponseEntity<?> addBook(@RequestBody Map<String, String> payload) {
